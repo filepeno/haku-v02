@@ -11,15 +11,21 @@ function init() {
   HTML.input = document.querySelector("#search-input");
   HTML.suggestionsWrpr = document.querySelector(".suggestions-wrapper");
   HTML.site = document.querySelector(".site-to-search");
-  getUrlParams();
+  getCustomeSite();
   initSearch(customSite);
   trackInteraction();
 }
 
-function getUrlParams() {
+function getCustomeSite() {
   const urlParams = new URLSearchParams(window.location.search);
   const id = urlParams.get("id");
-  customSite = id;
+  if (id != null) {
+    customSite = id;
+    //set site name in local storage
+    localStorage.setItem("site_id", customSite);
+  } else {
+    customSite = localStorage.getItem("site_id");
+  }
 }
 
 export function displayDomain(domain) {
@@ -27,11 +33,6 @@ export function displayDomain(domain) {
 }
 
 function trackInteraction() {
-  trackReturn();
-  /*   trackNextAndPrevBtn(); */
-}
-
-function trackReturn() {
   HTML.input.onkeydown = (e) => {
     //check if return key
     if (e.keyCode === 13) {
