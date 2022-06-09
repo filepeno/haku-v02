@@ -15,70 +15,80 @@ $translate: 17px;
   width: fit-content;
   flex-direction: column;
   position: relative;
-}
 
-.label-text {
-  text-align: center;
-  position: relative;
-  width: 100%;
-  margin-bottom: $gutter-xs;
-}
+  .label-text {
+    text-align: center;
+    position: relative;
+    width: 100%;
+    margin-bottom: $gutter-xs;
+  }
 
-/* Hide default HTML checkbox */
-.switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
+  /* Hide default HTML checkbox */
+  input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
 
-/* The slider */
-.slider {
-  width: $width;
-  height: $height;
-  position: relative;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: $clr-green;
-  -webkit-transition: 0.4s;
-  transition: 0.4s;
-  border-radius: $height;
-  -webkit-border-radius: $height;
-  -moz-border-radius: $height;
-  -ms-border-radius: $height;
-  -o-border-radius: $height;
-}
+  /* The slider */
+  .slider {
+    width: $width;
+    height: $height;
+    position: relative;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: $clr-green;
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
+    border-radius: $height;
+    -webkit-border-radius: $height;
+    -moz-border-radius: $height;
+    -ms-border-radius: $height;
+    -o-border-radius: $height;
+  }
 
-.slider:before {
-  position: absolute;
-  content: "";
-  height: $slider-radius;
-  width: $slider-radius;
-  left: $offset;
-  bottom: $offset;
-  background-color: $clr-contrast-dk;
-  transition: transform 0.2s;
-  border-radius: 50%;
-  -moz-transition: transform 0.2s;
-  -ms-transition: transform 0.2s;
-  -o-transition: transform 0.2s;
-  -webkit-transition: transform 0.2s;
-}
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: $slider-radius;
+    width: $slider-radius;
+    left: $offset;
+    bottom: $offset;
+    background-color: $clr-contrast-dk;
+    transition: transform 0.2s;
+    border-radius: 50%;
+    -moz-transition: transform 0.2s;
+    -ms-transition: transform 0.2s;
+    -o-transition: transform 0.2s;
+    -webkit-transition: transform 0.2s;
+  }
 
-input:checked + .slider {
-  background-color: $clr-util-valid;
-}
+  input:checked ~ .slider {
+    background-color: $clr-util-valid;
+  }
 
-input:focus-visible + .slider {
-  outline: 2px solid $clr-black;
-  outline-offset: 2px;
-}
+  input:focus-visible ~ .slider {
+    outline: 2px solid $clr-black;
+    outline-offset: 2px;
+  }
 
-input:checked + .slider:before {
-  background-color: $clr-white;
-  -webkit-transform: translateX($translate);
-  -ms-transform: translateX($translate);
-  transform: translateX($translate);
+  input:checked ~ .slider:before {
+    background-color: $clr-white;
+    -webkit-transform: translateX($translate);
+    -ms-transform: translateX($translate);
+    transform: translateX($translate);
+  }
+
+  input:disabled ~ .slider {
+    cursor: auto;
+    &:before {
+      background-color: rgba(38, 27, 168, 0.45);
+    }
+  }
+  input:disabled ~ .label-text {
+    color: rgba(255, 255, 255, 0.6);
+  }
 }
