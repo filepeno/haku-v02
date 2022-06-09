@@ -11,7 +11,7 @@ let totalHits;
 let offset;
 //
 
-export async function findAll(query, scope) {
+export async function findAll(customSite, query, scope) {
   q = query;
   currentScope = scope;
   offset = calculateOffset();
@@ -25,7 +25,7 @@ export async function findAll(query, scope) {
       from: offset,
     },
   });
-  cleanResults(await searchRequest(raw));
+  cleanResults(await searchRequest(customSite, raw));
 }
 
 function calculateOffset() {

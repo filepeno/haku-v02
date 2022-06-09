@@ -5,19 +5,21 @@ import { HTML } from "../main";
 
 window.addEventListener("load", init);
 
+let customSite;
+
 function init() {
   HTML.input = document.querySelector("#search-input");
   HTML.suggestionsWrpr = document.querySelector(".suggestions-wrapper");
   HTML.site = document.querySelector(".site-to-search");
-  let site = getUrlParams();
-  initSearch(site);
+  getUrlParams();
+  initSearch(customSite);
   trackInteraction();
 }
 
 function getUrlParams() {
   const urlParams = new URLSearchParams(window.location.search);
   const id = urlParams.get("id");
-  return id;
+  customSite = id;
 }
 
 export function displayDomain(domain) {
@@ -46,7 +48,7 @@ function trackReturn() {
 
 function handleRequest(q) {
   if (q) {
-    findAll(q, 1);
+    findAll(customSite, q, 1);
   } else {
     displayResultFeedback(q);
   }

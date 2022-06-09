@@ -1,5 +1,9 @@
-export default async function searchRequest(raw) {
-  console.log(raw);
+export default async function searchRequest(customSite, raw) {
+  let site = "knowit";
+  if (customSite != null) {
+    site = customSite;
+  }
+  const url = `https://stromlin-es.test.headnet.dk/site-da-${site}/_search/template`;
   const myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/json");
 
@@ -10,11 +14,9 @@ export default async function searchRequest(raw) {
     redirect: "follow",
   };
   try {
-    const res = await fetch("https://stromlin-es.test.headnet.dk/site-da-knowit/_search/template", requestOptions);
+    const res = await fetch(url, requestOptions);
     return await res.json();
   } catch (error) {
     console.log(error);
   }
-
-  /*     .catch((error) => console.log("error", error)); */
 }
