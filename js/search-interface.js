@@ -1,22 +1,28 @@
 import { findAll } from "./full-search";
 import { autoSuggest } from "./autosuggest";
-import { initSearch } from "./init-search";
+import { getDomainName, initSearch } from "./init-search";
 import { HTML } from "../main";
+import searchRequest from "./search-request";
 
 window.addEventListener("load", init);
 
 let customSite;
 
-function init() {
+async function init() {
   HTML.input = document.querySelector("#search-input");
   HTML.suggestionsWrpr = document.querySelector(".suggestions-wrapper");
   HTML.site = document.querySelector(".site-to-search");
-  getCustomeSite();
-  initSearch(customSite);
+  HTML.switch = document.querySelector(".switch");
+  getCustomSite();
+  const result = await initSearch(customSite);
+  if (customSite !== null) {
+    changeSwitchDisplayToCustom(result);
+  }
+  displayDomain(getDomainName(result));
   trackInteraction();
 }
 
-function getCustomeSite() {
+function getCustomSite() {
   const urlParams = new URLSearchParams(window.location.search);
   const id = urlParams.get("id");
   if (id != null) {
@@ -26,6 +32,14 @@ function getCustomeSite() {
   } else {
     customSite = localStorage.getItem("site_id");
   }
+}
+
+async function changeSwitchDisplayToCustom() {
+  HTML.switch.querySelector("input").checked = true;
+  console.log(HTML.switch.querySelector("input").checked);
+  const result = await initSearch(null);
+
+  HTML.switch.querySelector(".label-text em").textContent = getDomainName(result);
 }
 
 export function displayDomain(domain) {

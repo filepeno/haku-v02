@@ -6,12 +6,13 @@ export async function initSearch(customSite) {
     id: "fullsearch",
   });
 
-  getSiteToSearch(await searchRequest(customSite, raw));
+  const result = await searchRequest(customSite, raw);
+  return result;
 }
 
-function getSiteToSearch(result) {
+export function getDomainName(result) {
   const fullUrl = result.hits.hits[0]._source.url;
   const clippedURl = fullUrl.substring(fullUrl.indexOf(".") + 1, fullUrl.length);
   const domain = clippedURl.substring([0], clippedURl.indexOf("/"));
-  displayDomain(domain);
+  return domain;
 }
