@@ -36,6 +36,8 @@ function getCustomSite() {
   } else {
     if (localStorage.getItem("site_id") === null) {
       disableSwitch();
+    } else {
+      customSite = localStorage.getItem("site_id");
     }
   }
   siteToSearch = customSite;
