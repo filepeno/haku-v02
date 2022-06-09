@@ -13,11 +13,13 @@ async function init() {
   HTML.suggestionsWrpr = document.querySelector(".suggestions-wrapper");
   HTML.site = document.querySelector(".site-to-search");
   HTML.switch = document.querySelector(".switch");
+  HTML.switchInput = document.querySelector(".switch input");
   getCustomSite();
   const result = await initSearch(customSite);
   if (customSite !== null) {
-    changeSwitchDisplayToCustom(result);
+    changeSwitchDisplay(true);
   }
+  trackSwitchInteraction();
   displayDomain(getDomainName(result));
   trackInteraction();
 }
@@ -34,12 +36,28 @@ function getCustomSite() {
   }
 }
 
-async function changeSwitchDisplayToCustom() {
-  HTML.switch.querySelector("input").checked = true;
-  console.log(HTML.switch.querySelector("input").checked);
-  const result = await initSearch(null);
+async function changeSwitchDisplay(checked) {
+  const resultDefault = await initSearch(null);
+  const resultCustom = await initSearch("version2");
+  if (checked) {
+    HTML.switchInput.checked = true;
+    HTML.switch.querySelector(".label-text em").textContent = getDomainName(resultDefault);
+    displayDomain(getDomainName(resultCustom));
+  } else {
+    HTML.switch.querySelector(".label-text em").textContent = getDomainName(resultCustom);
+    displayDomain(getDomainName(resultDefault));
+  }
+}
 
-  HTML.switch.querySelector(".label-text em").textContent = getDomainName(result);
+async function trackSwitchInteraction() {
+  console.log(HTML.switchInput.checked);
+  HTML.switchInput.addEventListener("click", () => {
+    if (HTML.switchInput.checked === true) {
+      changeSwitchDisplay(true);
+    } else {
+      changeSwitchDisplay(false);
+    }
+  });
 }
 
 export function displayDomain(domain) {
