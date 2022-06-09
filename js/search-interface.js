@@ -42,7 +42,7 @@ function trackReturn() {
     }
   };
   HTML.input.onkeyup = () => {
-    autoSuggest(HTML.input.value);
+    autoSuggest(customSite, HTML.input.value);
   };
 }
 

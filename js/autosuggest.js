@@ -1,28 +1,16 @@
 import { clearSuggestions, displaySuggestions, hideSuggestions } from "./search-interface";
+import searchRequest from "./search-request";
 
-export function autoSuggest(q) {
+export async function autoSuggest(customSite, q) {
   if (q.length > 1) {
-    var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-
-    var raw = JSON.stringify({
+    const raw = JSON.stringify({
       id: "autosuggest",
       params: {
         query_string: q,
       },
     });
 
-    var requestOptions = {
-      method: "POST",
-      headers: myHeaders,
-      body: raw,
-      redirect: "follow",
-    };
-
-    fetch("https://stromlin-es.test.headnet.dk/site-da-knowit/_search/template", requestOptions)
-      .then((response) => response.json())
-      .then((result) => cleanResults(result));
-    /* .catch((error) => console.log("error", error)); */
+    cleanResults(await searchRequest(customSite, raw));
   } else {
     hideSuggestions();
   }
