@@ -1,3 +1,4 @@
+import searchRequest from "./search-request";
 import { displayResultFeedback, displayScope, toggleSearchArea } from "./search-interface";
 import { initPagination } from "./pagination";
 
@@ -10,38 +11,21 @@ let totalHits;
 let offset;
 //
 
-export function findAll(query, scope) {
+export async function findAll(query, scope) {
   q = query;
   currentScope = scope;
-  console.log("query:", q, " & scope:", currentScope);
   offset = calculateOffset();
-  console.log("current scope: ", currentScope);
 
-  var myHeaders = new Headers();
-  myHeaders.append("Content-Type", "application/json");
-
-  var raw = JSON.stringify({
+  const raw = JSON.stringify({
     id: "fullsearch",
     params: {
       include_facets: true,
       query_string: q,
       size: size,
       from: offset,
-      //offset: 0
     },
   });
-
-  var requestOptions = {
-    method: "POST",
-    headers: myHeaders,
-    body: raw,
-    redirect: "follow",
-  };
-
-  fetch("https://stromlin-es.test.headnet.dk/site-da-knowit/_search/template", requestOptions)
-    .then((response) => response.json())
-    .then((result) => cleanResults(result));
-  /*     .catch((error) => console.log("error", error)); */
+  cleanResults(await searchRequest(raw));
 }
 
 function calculateOffset() {

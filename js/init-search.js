@@ -1,6 +1,11 @@
 import { displayDomain } from "./search-interface";
 
-export function initSearch(url) {
+export function initSearch(customSite) {
+  let site = "knowit";
+  if (customSite != null) {
+    site = customSite;
+  }
+  const url = `https://stromlin-es.test.headnet.dk/site-da-${site}/_search/template`;
   console.log(url);
   var myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/json");

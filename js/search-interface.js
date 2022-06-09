@@ -9,9 +9,15 @@ function init() {
   HTML.input = document.querySelector("#search-input");
   HTML.suggestionsWrpr = document.querySelector(".suggestions-wrapper");
   HTML.site = document.querySelector(".site-to-search");
-  const defaultSite = "https://stromlin-es.test.headnet.dk/site-da-knowit/_search/template";
-  initSearch(defaultSite);
+  let site = getUrlParams();
+  initSearch(site);
   trackInteraction();
+}
+
+function getUrlParams() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const id = urlParams.get("id");
+  return id;
 }
 
 export function displayDomain(domain) {
@@ -78,7 +84,6 @@ export function toggleSearchArea() {
 }
 
 export function displaySuggestions() {
-  console.log("display suggestions");
   HTML.suggestionsWrpr.classList.remove("hidden");
   HTML.input.classList.add("suggestions-active");
   window.addEventListener("click", checkIfSuggestion);
@@ -91,7 +96,6 @@ function checkIfSuggestion(e) {
 }
 
 export function hideSuggestions() {
-  console.log("hide suggestions");
   HTML.suggestionsWrpr.classList.add("hidden");
   HTML.input.classList.remove("suggestions-active");
   window.removeEventListener("click", checkIfSuggestion);

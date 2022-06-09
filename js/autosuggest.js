@@ -2,7 +2,6 @@ import { clearSuggestions, displaySuggestions, hideSuggestions } from "./search-
 
 export function autoSuggest(q) {
   if (q.length > 1) {
-    console.log("query", q);
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
 
@@ -31,9 +30,7 @@ export function autoSuggest(q) {
 
 function cleanResults(result) {
   const hits = result.hits.hits;
-  console.log(hits);
   const totalHits = hits.length;
-  console.log("total hits:", totalHits);
   if (totalHits > 0) {
     clearSuggestions();
     hits.forEach((hit) => {
