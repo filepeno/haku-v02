@@ -7,6 +7,7 @@ import searchRequest from "./search-request";
 window.addEventListener("load", init);
 
 let customSite;
+let siteToSearch;
 
 async function init() {
   HTML.input = document.querySelector("#search-input");
@@ -15,10 +16,11 @@ async function init() {
   HTML.switch = document.querySelector(".switch");
   HTML.switchInput = document.querySelector(".switch input");
   getCustomSite();
-  const result = await initSearch(customSite);
-  if (customSite !== null) {
+  console.log(customSite);
+  if (customSite !== undefined) {
     changeSwitchDisplay(true);
   }
+  const result = await initSearch(siteToSearch);
   trackSwitchInteraction();
   displayDomain(getDomainName(result));
   trackInteraction();
@@ -27,34 +29,46 @@ async function init() {
 function getCustomSite() {
   const urlParams = new URLSearchParams(window.location.search);
   const id = urlParams.get("id");
-  if (id != null) {
+  if (id !== null) {
     customSite = id;
     //set site name in local storage
     localStorage.setItem("site_id", customSite);
   } else {
-    customSite = localStorage.getItem("site_id");
+    if (localStorage.getItem("site_id") === null) {
+      disableSwitch();
+    }
   }
+  siteToSearch = customSite;
+}
+
+function disableSwitch() {
+  console.log("no custom site");
+  HTML.switchInput.disabled = true;
 }
 
 async function changeSwitchDisplay(checked) {
+  console.log("switch");
   const resultDefault = await initSearch(null);
-  const resultCustom = await initSearch("version2");
+  const resultCustom = await initSearch(customSite);
   if (checked) {
+    //show custom interface
     HTML.switchInput.checked = true;
     HTML.switch.querySelector(".label-text em").textContent = getDomainName(resultDefault);
     displayDomain(getDomainName(resultCustom));
   } else {
+    //show default interface
     HTML.switch.querySelector(".label-text em").textContent = getDomainName(resultCustom);
     displayDomain(getDomainName(resultDefault));
   }
 }
 
 async function trackSwitchInteraction() {
-  console.log(HTML.switchInput.checked);
   HTML.switchInput.addEventListener("click", () => {
     if (HTML.switchInput.checked === true) {
+      siteToSearch = customSite;
       changeSwitchDisplay(true);
     } else {
+      siteToSearch = null;
       changeSwitchDisplay(false);
     }
   });
@@ -75,13 +89,13 @@ function trackInteraction() {
     }
   };
   HTML.input.onkeyup = () => {
-    autoSuggest(customSite, HTML.input.value);
+    autoSuggest(siteToSearch, HTML.input.value);
   };
 }
 
 function handleRequest(q) {
   if (q) {
-    findAll(customSite, q, 1);
+    findAll(siteToSearch, q, 1);
   } else {
     displayResultFeedback(q);
   }
