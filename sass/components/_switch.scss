@@ -68,7 +68,7 @@ $translate: 17px;
 }
 
 input:checked + .slider {
-  background-color: $clr-contrast-dk;
+  background-color: $clr-util-valid;
 }
 
 input:focus-visible + .slider {
@@ -77,7 +77,7 @@ input:focus-visible + .slider {
 }
 
 input:checked + .slider:before {
-  background-color: $clr-contrast-ltr;
+  background-color: $clr-white;
   -webkit-transform: translateX($translate);
   -ms-transform: translateX($translate);
   transform: translateX($translate);
