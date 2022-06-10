@@ -55,11 +55,11 @@ async function changeSwitchDisplay(checked) {
   if (checked) {
     //show custom interface
     HTML.switchInput.checked = true;
-    HTML.switch.querySelector(".label-text em").textContent = getDomainName(resultDefault);
+    HTML.switch.querySelector(".label-text .other-site").textContent = getDomainName(resultDefault);
     displayDomain(getDomainName(resultCustom));
   } else {
     //show default interface
-    HTML.switch.querySelector(".label-text em").textContent = getDomainName(resultCustom);
+    HTML.switch.querySelector(".label-text .other-site").textContent = getDomainName(resultCustom);
     displayDomain(getDomainName(resultDefault));
   }
 }
