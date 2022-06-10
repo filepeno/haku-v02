@@ -9,6 +9,7 @@ $translate: 17px;
 
 /* The switch - the box around the slider */
 .switch {
+  $opacity-value: 0.6;
   @include flex-center;
   @include main-typography;
   color: $clr-white;
@@ -45,7 +46,7 @@ $translate: 17px;
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: $clr-green;
+    background-color: $clr-blue-dk;
     -webkit-transition: 0.4s;
     transition: 0.4s;
     border-radius: $height;
@@ -66,13 +67,14 @@ $translate: 17px;
     width: $slider-radius;
     left: $offset;
     bottom: $offset;
-    background-color: $clr-contrast-dk;
+    background-color: $clr-green;
     transition: transform 0.2s;
     border-radius: 50%;
     -moz-transition: transform 0.2s;
     -ms-transition: transform 0.2s;
     -o-transition: transform 0.2s;
     -webkit-transition: transform 0.2s;
+    box-shadow: -1px 0 4px #07392e41;
   }
 
   input:checked ~ .slider {
@@ -92,12 +94,12 @@ $translate: 17px;
   }
 
   input:disabled ~ .slider {
+    filter: opacity($opacity-value);
+    -webkit-filter: opacity($opacity-value);
     cursor: auto;
-    &:before {
-      background-color: rgba(38, 27, 168, 0.45);
-    }
   }
   input:disabled ~ .label-text {
-    color: rgba(255, 255, 255, 0.6);
+    filter: opacity($opacity-value);
+    -webkit-filter: opacity($opacity-value);
   }
 }
