@@ -1,7 +1,7 @@
 import { clearSuggestions, displaySuggestions, hideSuggestions } from "./search-interface";
 import searchRequest from "./search-request";
 
-export async function autoSuggest(customSite, q) {
+export async function autoSuggest(site, q) {
   if (q.length > 1) {
     const raw = JSON.stringify({
       id: "autosuggest",
@@ -10,7 +10,7 @@ export async function autoSuggest(customSite, q) {
       },
     });
 
-    cleanResults(await searchRequest(customSite, raw));
+    cleanResults(await searchRequest(site, raw));
   } else {
     hideSuggestions();
   }

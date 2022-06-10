@@ -3,6 +3,7 @@ import { autoSuggest } from "./autosuggest";
 import { initSearch } from "./init-search";
 import { HTML } from "../main";
 
+const defaultSite = "knowit";
 let customSite;
 let siteToSearch;
 let customDomain;
@@ -23,6 +24,7 @@ async function init() {
     changeSwitchDisplay(true);
     hideDisclaimer();
   } else {
+    siteToSearch = defaultSite;
     const result = await initSearch(siteToSearch);
     displayDomain(getDomainName(result));
     disableSwitch();
@@ -79,7 +81,7 @@ function trackInteraction() {
 async function changeSwitchDisplay(checked) {
   //set custom and default domain if undefined
   if (defaultDomain === undefined) {
-    const resultDefault = await initSearch(undefined);
+    const resultDefault = await initSearch(defaultSite);
     defaultDomain = getDomainName(resultDefault);
   }
   if (customDomain === undefined) {
@@ -105,7 +107,7 @@ async function trackSwitchInteraction() {
       siteToSearch = customSite;
       changeSwitchDisplay(true);
     } else {
-      siteToSearch = null;
+      siteToSearch = defaultSite;
       changeSwitchDisplay(false);
     }
   });

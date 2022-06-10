@@ -11,7 +11,7 @@ let totalHits;
 let offset;
 //
 
-export async function findAll(customSite, query, scope) {
+export async function findAll(site, query, scope) {
   q = query;
   currentScope = scope;
   offset = calculateOffset();
@@ -25,7 +25,7 @@ export async function findAll(customSite, query, scope) {
       from: offset,
     },
   });
-  cleanResults(await searchRequest(customSite, raw), customSite);
+  cleanResults(await searchRequest(site, raw), site);
 }
 
 function calculateOffset() {
@@ -50,7 +50,7 @@ function calculateScope() {
   displayScope(from, to);
 }
 
-function cleanResults(result, customSite) {
+function cleanResults(result, site) {
   console.log("result", result);
   const hits = result.hits;
   const content = hits.hits;
@@ -62,7 +62,7 @@ function cleanResults(result, customSite) {
   //if first search
   if (currentScope === 1) {
     displayResultFeedback(q, totalHits);
-    initPagination(q, totalHits, size, maxPages, customSite);
+    initPagination(q, totalHits, size, maxPages, site);
   }
   calculateScope(offset, size);
 }

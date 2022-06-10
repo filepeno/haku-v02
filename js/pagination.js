@@ -2,7 +2,7 @@ import Pagination from "tui-pagination";
 import { clearResults } from "./search-interface";
 import { findAll } from "./full-search";
 
-export function initPagination(q, hits, size, pages, customSite) {
+export function initPagination(q, hits, size, pages, site) {
   const container = document.getElementById("tui-pagination-container");
   const pagination = new Pagination(container, {
     totalItems: hits,
@@ -22,6 +22,6 @@ export function initPagination(q, hits, size, pages, customSite) {
   pagination.on("afterMove", ({ page }) => {
     console.log("new page:", page);
     clearResults();
-    findAll(customSite, q, page);
+    findAll(site, q, page);
   });
 }
