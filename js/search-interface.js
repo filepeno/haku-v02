@@ -15,10 +15,11 @@ async function init() {
   HTML.site = document.querySelector(".site-to-search");
   HTML.switch = document.querySelector(".switch");
   HTML.switchInput = document.querySelector(".switch input");
+  HTML.disclaimer = document.querySelector(".disclaimer");
   getCustomSite();
-  console.log(customSite);
   if (customSite !== undefined) {
     changeSwitchDisplay(true);
+    hideDisclaimer();
   }
   const result = await initSearch(siteToSearch);
   trackSwitchInteraction();
@@ -44,12 +45,14 @@ function getCustomSite() {
 }
 
 function disableSwitch() {
-  console.log("no custom site");
   HTML.switchInput.disabled = true;
 }
 
+function hideDisclaimer() {
+  HTML.disclaimer.classList.add("hidden");
+}
+
 async function changeSwitchDisplay(checked) {
-  console.log("switch");
   const resultDefault = await initSearch(null);
   const resultCustom = await initSearch(customSite);
   if (checked) {
