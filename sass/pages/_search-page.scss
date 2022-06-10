@@ -33,8 +33,7 @@
       margin-bottom: 0;
     }
 
-    > *,
-    label span {
+    > * {
       color: $clr-white;
     }
     @media (min-width: $mq-sm) {
@@ -52,7 +51,7 @@
 }
 
 .results-wrapper {
-  @include section-padding-mq;
+  padding: $gutter-lg $gutter-md;
   max-width: $max-size;
   @include center;
 }
