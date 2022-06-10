@@ -1,4 +1,3 @@
-import { displayDomain } from "./search-interface";
 import searchRequest from "./search-request";
 
 export async function initSearch(customSite) {

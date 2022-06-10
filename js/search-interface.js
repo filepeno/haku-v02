@@ -2,7 +2,6 @@ import { findAll } from "./full-search";
 import { autoSuggest } from "./autosuggest";
 import { getDomainName, initSearch } from "./init-search";
 import { HTML } from "../main";
-import searchRequest from "./search-request";
 
 window.addEventListener("load", init);
 
