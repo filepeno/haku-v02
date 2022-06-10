@@ -23,7 +23,7 @@ $shadow: 0 4px 4px #654cff;
         font-size: $fs-body;
       }
     }
-    margin: $gutter-md 0;
+    margin: $gutter-md 0 $gutter-sm 0;
 
     .site-to-search {
       @include h2-typography;
