@@ -18,12 +18,14 @@ async function init() {
   HTML.switchInput = document.querySelector(".switch input");
   HTML.disclaimer = document.querySelector(".disclaimer");
   customSite = getCustomSite();
-  const result = await initSearch(siteToSearch);
-  displayDomain(getDomainName(result));
   if (customSite !== undefined) {
     siteToSearch = customSite;
     changeSwitchDisplay(true);
     hideDisclaimer();
+  } else {
+    const result = await initSearch(siteToSearch);
+    displayDomain(getDomainName(result));
+    disableSwitch();
   }
   trackInteraction();
 }
@@ -39,8 +41,6 @@ function getCustomSite() {
     id = localStorage.getItem("site_id");
     if (id !== null) {
       return id;
-    } else {
-      disableSwitch();
     }
   }
 }
