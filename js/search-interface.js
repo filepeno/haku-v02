@@ -70,6 +70,7 @@ function trackInteraction() {
 }
 
 async function changeSwitchDisplay(checked) {
+  //set custom and default domain if undefined
   if (defaultDomain === undefined) {
     const resultDefault = await initSearch(null);
     defaultDomain = getDomainName(resultDefault);
@@ -78,6 +79,7 @@ async function changeSwitchDisplay(checked) {
     const resultCustom = await initSearch(customSite);
     customDomain = getDomainName(resultCustom);
   }
+  //change display
   if (checked) {
     //show custom interface
     HTML.switchInput.checked = true;
