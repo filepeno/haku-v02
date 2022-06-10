@@ -3,10 +3,12 @@ import { autoSuggest } from "./autosuggest";
 import { getDomainName, initSearch } from "./init-search";
 import { HTML } from "../main";
 
-window.addEventListener("load", init);
-
 let customSite;
 let siteToSearch;
+let customDomain;
+let defaultDomain;
+
+window.addEventListener("load", init);
 
 async function init() {
   HTML.input = document.querySelector("#search-input");
@@ -15,14 +17,14 @@ async function init() {
   HTML.switch = document.querySelector(".switch");
   HTML.switchInput = document.querySelector(".switch input");
   HTML.disclaimer = document.querySelector(".disclaimer");
-  getCustomSite();
+  customSite = getCustomSite();
+  const result = await initSearch(siteToSearch);
+  displayDomain(getDomainName(result));
   if (customSite !== undefined) {
+    siteToSearch = customSite;
     changeSwitchDisplay(true);
     hideDisclaimer();
   }
-  const result = await initSearch(siteToSearch);
-  trackSwitchInteraction();
-  displayDomain(getDomainName(result));
   trackInteraction();
 }
 
@@ -30,18 +32,17 @@ function getCustomSite() {
   const urlParams = new URLSearchParams(window.location.search);
   let id = urlParams.get("id");
   if (id !== null) {
-    customSite = id;
     //set site name in local storage
-    localStorage.setItem("site_id", customSite);
+    localStorage.setItem("site_id", id);
+    return id;
   } else {
     id = localStorage.getItem("site_id");
     if (id !== null) {
-      customSite = id;
+      return id;
     } else {
       disableSwitch();
     }
   }
-  siteToSearch = customSite;
 }
 
 function disableSwitch() {
@@ -52,18 +53,40 @@ function hideDisclaimer() {
   HTML.disclaimer.classList.add("hidden");
 }
 
+function trackInteraction() {
+  HTML.input.onkeydown = (e) => {
+    //check if return key
+    if (e.keyCode === 13) {
+      e.preventDefault();
+      handleRequest(HTML.input.value);
+      blurInput();
+      hideSuggestions();
+    }
+  };
+  HTML.input.onkeyup = () => {
+    autoSuggest(siteToSearch, HTML.input.value);
+  };
+  trackSwitchInteraction();
+}
+
 async function changeSwitchDisplay(checked) {
-  const resultDefault = await initSearch(null);
-  const resultCustom = await initSearch(customSite);
+  if (defaultDomain === undefined) {
+    const resultDefault = await initSearch(null);
+    defaultDomain = getDomainName(resultDefault);
+  }
+  if (customDomain === undefined) {
+    const resultCustom = await initSearch(customSite);
+    customDomain = getDomainName(resultCustom);
+  }
   if (checked) {
     //show custom interface
     HTML.switchInput.checked = true;
-    HTML.switch.querySelector(".label-text .other-site").textContent = getDomainName(resultDefault);
-    displayDomain(getDomainName(resultCustom));
+    HTML.switch.querySelector(".label-text .other-site").textContent = defaultDomain;
+    displayDomain(customDomain);
   } else {
     //show default interface
-    HTML.switch.querySelector(".label-text .other-site").textContent = getDomainName(resultCustom);
-    displayDomain(getDomainName(resultDefault));
+    HTML.switch.querySelector(".label-text .other-site").textContent = customDomain;
+    displayDomain(defaultDomain);
   }
 }
 
@@ -81,21 +104,6 @@ async function trackSwitchInteraction() {
 
 export function displayDomain(domain) {
   HTML.site.textContent = domain;
-}
-
-function trackInteraction() {
-  HTML.input.onkeydown = (e) => {
-    //check if return key
-    if (e.keyCode === 13) {
-      e.preventDefault();
-      handleRequest(HTML.input.value);
-      blurInput();
-      hideSuggestions();
-    }
-  };
-  HTML.input.onkeyup = () => {
-    autoSuggest(siteToSearch, HTML.input.value);
-  };
 }
 
 function handleRequest(q) {
