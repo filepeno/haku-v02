@@ -35,10 +35,10 @@ function getCustomSite() {
   let id = urlParams.get("id");
   if (id !== null) {
     //set site name in local storage
-    localStorage.setItem("site_id", id);
+    localStorage.setItem("haku_id", id);
     return id;
   } else {
-    id = localStorage.getItem("site_id");
+    id = localStorage.getItem("haku_id");
     if (id !== null) {
       return id;
     }
