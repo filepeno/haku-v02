@@ -56,6 +56,7 @@ function getDomainName(result) {
 
 function disableSwitch() {
   HTML.switchInput.disabled = true;
+  HTML.switch.classList.add("hidden");
 }
 
 function hideDisclaimer() {
@@ -92,11 +93,11 @@ async function changeSwitchDisplay(checked) {
   if (checked) {
     //show custom interface
     HTML.switchInput.checked = true;
-    HTML.switch.querySelector(".label-text .other-site").textContent = defaultDomain;
+    /* HTML.switch.querySelector(".label-text .other-site").textContent = defaultDomain; */
     displayDomain(customDomain);
   } else {
     //show default interface
-    HTML.switch.querySelector(".label-text .other-site").textContent = customDomain;
+    /* HTML.switch.querySelector(".label-text .other-site").textContent = customDomain; */
     displayDomain(defaultDomain);
   }
 }
