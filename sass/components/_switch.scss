@@ -53,10 +53,10 @@ $translate: 17px;
     -moz-border-radius: $height;
     -ms-border-radius: $height;
     -o-border-radius: $height;
-    transform: scale(0.9);
+    /*     transform: scale(0.9);
     @media (min-width: $mq-sm) {
       transform: scale(1);
-    }
+    } */
   }
 
   .slider:before {
