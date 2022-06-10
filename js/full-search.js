@@ -25,7 +25,7 @@ export async function findAll(customSite, query, scope) {
       from: offset,
     },
   });
-  cleanResults(await searchRequest(customSite, raw));
+  cleanResults(await searchRequest(customSite, raw), customSite);
 }
 
 function calculateOffset() {
@@ -50,7 +50,7 @@ function calculateScope() {
   displayScope(from, to);
 }
 
-function cleanResults(result) {
+function cleanResults(result, customSite) {
   console.log("result", result);
   const hits = result.hits;
   const content = hits.hits;
@@ -62,7 +62,7 @@ function cleanResults(result) {
   //if first search
   if (currentScope === 1) {
     displayResultFeedback(q, totalHits);
-    initPagination(q, totalHits, size, maxPages);
+    initPagination(q, totalHits, size, maxPages, customSite);
   }
   calculateScope(offset, size);
 }
