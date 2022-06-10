@@ -21,6 +21,7 @@ async function init() {
   customSite = getCustomSite();
   if (customSite !== undefined) {
     siteToSearch = customSite;
+    await setDomainVars();
     changeSwitchDisplay(true);
     hideDisclaimer();
   } else {
@@ -79,16 +80,16 @@ function trackInteraction() {
   trackSwitchInteraction();
 }
 
-async function changeSwitchDisplay(checked) {
-  //set custom and default domain if undefined
-  if (defaultDomain === undefined) {
-    const resultDefault = await initSearch(defaultSite);
-    defaultDomain = getDomainName(resultDefault);
-  }
-  if (customDomain === undefined) {
-    const resultCustom = await initSearch(customSite);
-    customDomain = getDomainName(resultCustom);
-  }
+async function setDomainVars() {
+  //set custom and default domain vars
+  const resultDefault = await initSearch(defaultSite);
+  defaultDomain = getDomainName(resultDefault);
+
+  const resultCustom = await initSearch(customSite);
+  customDomain = getDomainName(resultCustom);
+}
+
+function changeSwitchDisplay(checked) {
   //change display
   if (checked) {
     //show custom interface
