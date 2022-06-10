@@ -14,11 +14,16 @@ $shadow: 0 4px 4px #654cff;
   position: relative;
   label {
     @include flex-center;
+    line-height: $line-height-sm;
     flex-direction: column;
     > span:first-child {
       @include main-typography;
+      font-size: $fs-sm;
+      @media (min-width: $mq-sm) {
+        font-size: $fs-body;
+      }
     }
-    margin-top: $gutter-md;
+    margin: $gutter-md 0;
 
     .site-to-search {
       @include h2-typography;
