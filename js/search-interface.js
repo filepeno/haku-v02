@@ -28,16 +28,17 @@ async function init() {
 
 function getCustomSite() {
   const urlParams = new URLSearchParams(window.location.search);
-  const id = urlParams.get("id");
+  let id = urlParams.get("id");
   if (id !== null) {
     customSite = id;
     //set site name in local storage
     localStorage.setItem("site_id", customSite);
   } else {
-    if (localStorage.getItem("site_id") === null) {
-      disableSwitch();
+    id = localStorage.getItem("site_id");
+    if (id !== null) {
+      customSite = id;
     } else {
-      customSite = localStorage.getItem("site_id");
+      disableSwitch();
     }
   }
   siteToSearch = customSite;
