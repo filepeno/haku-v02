@@ -8,10 +8,3 @@ export async function initSearch(customSite) {
   const result = await searchRequest(customSite, raw);
   return result;
 }
-
-export function getDomainName(result) {
-  const fullUrl = result.hits.hits[0]._source.url;
-  const clippedURl = fullUrl.substring(fullUrl.indexOf(".") + 1, fullUrl.length);
-  const domain = clippedURl.substring([0], clippedURl.indexOf("/"));
-  return domain;
-}

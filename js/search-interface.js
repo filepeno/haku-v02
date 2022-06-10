@@ -1,6 +1,6 @@
 import { findAll } from "./full-search";
 import { autoSuggest } from "./autosuggest";
-import { getDomainName, initSearch } from "./init-search";
+import { initSearch } from "./init-search";
 import { HTML } from "../main";
 
 let customSite;
@@ -45,6 +45,13 @@ function getCustomSite() {
   }
 }
 
+function getDomainName(result) {
+  const fullUrl = result.hits.hits[0]._source.url;
+  const clippedURl = fullUrl.substring(fullUrl.indexOf(".") + 1, fullUrl.length);
+  const domain = clippedURl.substring([0], clippedURl.indexOf("/"));
+  return domain;
+}
+
 function disableSwitch() {
   HTML.switchInput.disabled = true;
 }
@@ -72,7 +79,7 @@ function trackInteraction() {
 async function changeSwitchDisplay(checked) {
   //set custom and default domain if undefined
   if (defaultDomain === undefined) {
-    const resultDefault = await initSearch(null);
+    const resultDefault = await initSearch(undefined);
     defaultDomain = getDomainName(resultDefault);
   }
   if (customDomain === undefined) {
