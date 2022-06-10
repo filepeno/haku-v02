@@ -133,7 +133,7 @@ export function displayScope(fromValue, toValue) {
 }
 
 export function toggleSearchArea() {
-  document.querySelector(".results-wrapper").classList.remove("hidden");
+  document.querySelector(".results-wrapper .result-scope").classList.remove("hidden");
   document.querySelector(".hero").classList.add("search-active");
 }
 
