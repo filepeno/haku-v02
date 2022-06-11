@@ -3,11 +3,13 @@ import { autoSuggest } from "./autosuggest";
 import { initSearch } from "./init-search";
 import { HTML } from "../main";
 
-const defaultSite = "knowit";
-let customSite;
-let siteToSearch;
-let customDomain;
-let defaultDomain;
+const site = {
+  defaultSite: "knowit",
+  customSite: "",
+  siteToSearch: "",
+  customDomain: "",
+  defaultDomain: "",
+};
 
 window.addEventListener("load", init);
 
@@ -18,16 +20,16 @@ async function init() {
   HTML.switch = document.querySelector(".switch");
   HTML.switchInput = document.querySelector(".switch input");
   HTML.disclaimer = document.querySelector(".disclaimer");
-  customSite = getCustomSite();
-  if (customSite !== undefined) {
-    siteToSearch = customSite;
+  site.customSite = getCustomSite();
+  if (site.customSite !== undefined) {
+    site.siteToSearch = site.customSite;
     await setDomainVars();
     changeSwitchDisplay(true);
     hideDisclaimer();
     displaySwitch();
   } else {
-    siteToSearch = defaultSite;
-    const result = await initSearch(siteToSearch);
+    site.siteToSearch = site.defaultSite;
+    const result = await initSearch(site.siteToSearch);
     displayDomain(getDomainName(result));
   }
   trackInteraction();
@@ -74,18 +76,18 @@ function trackInteraction() {
     }
   };
   HTML.input.onkeyup = () => {
-    autoSuggest(siteToSearch, HTML.input.value);
+    autoSuggest(site.siteToSearch, HTML.input.value);
   };
   trackSwitchInteraction();
 }
 
 async function setDomainVars() {
   //set custom and default domain vars
-  const resultDefault = await initSearch(defaultSite);
-  defaultDomain = getDomainName(resultDefault);
+  const resultDefault = await initSearch(site.defaultSite);
+  site.defaultDomain = getDomainName(resultDefault);
 
-  const resultCustom = await initSearch(customSite);
-  customDomain = getDomainName(resultCustom);
+  const resultCustom = await initSearch(site.customSite);
+  site.customDomain = getDomainName(resultCustom);
 }
 
 function changeSwitchDisplay(checked) {
@@ -94,21 +96,21 @@ function changeSwitchDisplay(checked) {
     //show custom interface
     HTML.switchInput.checked = true;
     /* HTML.switch.querySelector(".label-text .other-site").textContent = defaultDomain; */
-    displayDomain(customDomain);
+    displayDomain(site.customDomain);
   } else {
     //show default interface
     /* HTML.switch.querySelector(".label-text .other-site").textContent = customDomain; */
-    displayDomain(defaultDomain);
+    displayDomain(site.defaultDomain);
   }
 }
 
 async function trackSwitchInteraction() {
   HTML.switchInput.addEventListener("click", () => {
     if (HTML.switchInput.checked === true) {
-      siteToSearch = customSite;
+      site.siteToSearch = site.customSite;
       changeSwitchDisplay(true);
     } else {
-      siteToSearch = defaultSite;
+      site.siteToSearch = site.defaultSite;
       changeSwitchDisplay(false);
     }
   });
@@ -120,7 +122,7 @@ export function displayDomain(domain) {
 
 function handleRequest(q) {
   if (q) {
-    findAll(siteToSearch, q, 1);
+    findAll(site.siteToSearch, q, 1);
   } else {
     displayResultFeedback(q);
   }
