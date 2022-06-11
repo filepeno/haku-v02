@@ -55,7 +55,7 @@ function getDomainName(result) {
   return domain;
 }
 
-function disableSwitch() {
+function displaySwitch() {
   HTML.switch.classList.remove("hidden");
 }
 
