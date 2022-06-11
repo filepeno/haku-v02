@@ -24,11 +24,11 @@ async function init() {
     await setDomainVars();
     changeSwitchDisplay(true);
     hideDisclaimer();
+    displaySwitch();
   } else {
     siteToSearch = defaultSite;
     const result = await initSearch(siteToSearch);
     displayDomain(getDomainName(result));
-    disableSwitch();
   }
   trackInteraction();
 }
@@ -56,8 +56,7 @@ function getDomainName(result) {
 }
 
 function disableSwitch() {
-  HTML.switchInput.disabled = true;
-  HTML.switch.classList.add("hidden");
+  HTML.switch.classList.remove("hidden");
 }
 
 function hideDisclaimer() {
