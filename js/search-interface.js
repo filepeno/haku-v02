@@ -21,17 +21,17 @@ async function init() {
   HTML.switchInput = document.querySelector(".switch input");
   HTML.disclaimer = document.querySelector(".disclaimer");
   site.customSite = getCustomSite();
-  if (site.customSite !== undefined) {
+  if (site.customSite === undefined) {
+    site.siteToSearch = site.defaultSite;
+    const result = await initSearch(site.siteToSearch);
+    displayDomain(getDomainName(result));
+  } else {
     site.siteToSearch = site.customSite;
     await setDomainVars();
     trackSwitchInteraction();
     HTML.switchInput.click();
     displaySwitch();
     hideDisclaimer();
-  } else {
-    site.siteToSearch = site.defaultSite;
-    const result = await initSearch(site.siteToSearch);
-    displayDomain(getDomainName(result));
   }
   trackSearchInputInteraction();
 }
